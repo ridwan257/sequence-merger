@@ -1,0 +1,15 @@
+G   G
+A	A
+T	T
+C	C
+R	G or A
+Y	T or C
+M	A or C
+K	G or T
+S   G or C
+W   A or T
+H   A or C or T
+B   G or T or C
+V   G or C or A
+D   G or A or T
+N   G or A or T or C
