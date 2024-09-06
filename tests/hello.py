@@ -1,3 +1,6 @@
+import sys
+sys.path.append('/Users/reuben204/Reuben/practice/sequence-merger/src/')
+
 from Bio import SeqIO
 from utils import reverse_complement
 from merge import simple_merge

@@ -1,6 +1,6 @@
 import utils as utl
 import build_matrix as bld
-import traceback as trc
+import traceback_paths as trc
 
 def build_alignment(left, right):
     score_mat, trace_mat = bld.build_alignment_matrix(left, right)

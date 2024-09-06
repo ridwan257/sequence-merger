@@ -1,6 +1,4 @@
 
-
-
 def trace_all_paths(trace_matrix, j, i, path, path_list, limit=None):
     # i --> row index of matrix
     # j --> column index of matrix
