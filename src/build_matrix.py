@@ -1,3 +1,5 @@
+import utils as utl
+
 
 
 def last_column(matrix):
@@ -10,16 +12,32 @@ def last_column(matrix):
     return last_col
 
 
+def build_alignment_matrix(left , right, match = 1, mismatch=-1, gap=-1):
+    """
+        Perform overlap alignment between 2 sequence. It alings in such fashion -
+        # left  sequence : --------------
+        # right sequence :        --------------
+        It follows a Base Case => OPT(0,j) = 0 for 0 ≤ j ≤ m
+        And trace back starts from => max OPT(i,m) for 0 ≤ i ≤ n
 
-def build_alignment_matrix(left, right):
+        Parameters:
+        left : Leftward Sequence
+        rigth : Rightward Sequence
+        match : match score
+        mismatch : mismatch score [should be -ve sign]
+        gap : gap penalty [should be -ve sign]
+
+        Returns:
+        A tuppple of 2 matrices : Score matrix, Trace matrix
+    """
     mat = [ [-i] + [0]*(len(left)) for i in range(len(right)+1) ]
     trace = [ ['---']+['h--']*len(left) 
             if i == 0 else ['--v']+['---']*len(left) 
             for i in range(len(right)+1) ]
 
-    mismatch = -1
-    match = 1
-    gap = -1
+    # mismatch = -1
+    # match = 1
+    # gap = -1
 
     for i in range(1, len(right)+1):
         for j in range(1, len(left)+1): 
@@ -42,26 +60,44 @@ def build_alignment_matrix(left, right):
     # for row in mat : print(row)
     # for row in trace : print(row)
 
-    return mat, trace
+    return (mat, trace)
 
 
-def get_maximum_score_index(score):
-    S_index = len(score[0]) - 1
-    T_index = len(score) - 1
-    maxNum = max([score[i][S_index] for i in range(T_index+1)])
-    print([score[i][S_index] for i in range(T_index+1)])
-    print("left | right -", S_index, T_index)
+def get_maximum_score_index(score, verbose=False):
+    left_index = len(score[0]) - 1
+    right_index = len(score) - 1
+    max_score = max([score[i][left_index] for i in range(right_index+1)])
+
+    if(verbose):
+        print([score[i][left_index] for i in range(right_index+1)])
+        print("left seqecuence length -", left_index)
+        print("right seqecuence length -", right_index)
     
-    for i in range(T_index, -1, -1):
-        if score[i][S_index] == maxNum:
-            T_index = i
+    for i in range(right_index, -1, -1):
+        if score[i][left_index] == max_score:
+            right_index = i
             break
 
-    print(f"% score - {(maxNum/T_index)*100:.4f}%")
-    print("Socre of overlap region -", maxNum)
+    if verbose:
+        print(f"% score - {(max_score/right_index)*100:.4f}%")
+        print("Socre of overlap region -", max_score)
 
-    return (maxNum, S_index, T_index)
+    return (max_score, left_index, right_index)
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
     build_alignment_matrix("AGCT", "ASC")
+
+
+
+
+

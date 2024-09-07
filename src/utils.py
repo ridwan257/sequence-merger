@@ -1,32 +1,43 @@
 from Bio.Seq import Seq
 
 def render(mattix):
-    for row in mattix : print(row)
+    for row in mattix :
+        for num in row:
+            print(f"{num:3}", end=" ")
+        print()
 
 def clear():
     print("\033c", end='')
 
-def to_iupac(*nts):
-    iupac_codes = {
-        frozenset(['A']): 'A',
-        frozenset(['C']): 'C',
-        frozenset(['G']): 'G',
-        frozenset(['T']): 'T',
-        frozenset(['A', 'G']): 'R',
-        frozenset(['C', 'T']): 'Y',
-        frozenset(['C', 'G']): 'S',
-        frozenset(['A', 'T']): 'W',
-        frozenset(['G', 'T']): 'K',
-        frozenset(['A', 'C']): 'M',
-        frozenset(['A', 'C', 'G']): 'V',
-        frozenset(['A', 'C', 'T']): 'H',
-        frozenset(['A', 'G', 'T']): 'D',
-        frozenset(['C', 'G', 'T']): 'B',
-        frozenset(['A', 'C', 'G', 'T']): 'N'
-    }
-    nts = frozenset(sorted(nts))
 
-    return iupac_codes.get(nts)
+IUPAC_TO_NT = {
+    'A': {'A'}, 
+    'T': {'T'}, 
+    'C': {'C'}, 
+    'G': {'G'},
+    'R': {'A', 'G'}, 
+    'Y': {'C', 'T'}, 
+    'S': {'G', 'C'}, 
+    'W': {'A', 'T'},
+    'K': {'G', 'T'}, 
+    'M': {'A', 'C'}, 
+    'B': {'C', 'G', 'T'}, 
+    'D': {'A', 'G', 'T'},
+    'H': {'A', 'C', 'T'}, 
+    'V': {'A', 'C', 'G'}, 
+    'N': {'A', 'C', 'G', 'T'}
+}
+
+NT_TO_IUPAC = { frozenset(v): k for k, v in IUPAC_TO_NT.items() }
+
+def to_iupac(nt1, nt2):
+    bases1 = IUPAC_TO_NT.get(nt1, set())
+    bases2 = IUPAC_TO_NT.get(nt2, set())
+    
+    combined_bases = bases1.union(bases2)
+    
+    return NT_TO_IUPAC.get(frozenset(combined_bases), None)
+
 
 
 
@@ -35,3 +46,21 @@ def reverse_complement(sequence):
     reverse_comp = seq.reverse_complement()
     
     return str(reverse_comp)
+
+
+
+if __name__ == '__main__':
+    print(to_iupac('B', 'D'))
+    print(to_iupac('A', 'C'))
+    print(to_iupac('W', 'W'))
+
+
+
+
+
+
+
+
+
+
+

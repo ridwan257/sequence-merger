@@ -1,13 +1,10 @@
-from generate_alignment import build_alignment
-from utils import clear, to_iupac
 
-
-def merge_overlap(left, right, left_qual, right_qual, mode='left'):
+def merge_overlap(left, right, left_qual, right_qual, mode='left', match = 1, mismatch=-1, gap=-1):
     # mode -> 'left', 'right', 'iupac'
 
     consensus = ""
 
-    l, r = build_alignment(left, right)
+    l, r = build_alignment(left, right, match, mismatch, gap)
     
     flank_r_len = len(r) - len(l)
     flank_l_len = 0
@@ -53,25 +50,3 @@ def merge_overlap(left, right, left_qual, right_qual, mode='left'):
     consensus += r[len(l):]
     
     return consensus
-
-def simple_merge(left, right, mode='left'):
-    lqual = [ 1 for i in range(len(left)) ]
-    rqual = [ 1 for i in range(len(right)) ]
-    consensus = merge_overlap(left, right, lqual, rqual, mode)
-
-    return consensus
-
-
-if __name__ == "__main__":
-    clear()
-
-    left = "AGCTAG"
-    right = "AATACCTA"
-
-    left_qual = [5, 5, 6, 7, 8, 9, 1]
-    right_qual = [2, 3, 9, 5, 6, 5]
-
-    origin = simple_merge(left, right, 'iupac')
-
-    print()
-    print(origin)

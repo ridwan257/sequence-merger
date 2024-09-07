@@ -1,7 +1,21 @@
 
-def trace_all_paths(trace_matrix, j, i, path, path_list, limit=None):
-    # i --> row index of matrix
-    # j --> column index of matrix
+def trace_all_paths(trace_matrix, j, i, path, path_list, limit=10):
+    """
+        Backtrace all paths in a recursive fasions.
+
+        Parameters:
+        trace_matrix : A trace matrix
+        j : column index [ the length of left sequence ] 
+        i : row index [ index of right sequence where overlap stops ]
+        path : provide just an empty string = ""
+        path_list : an empty list holder where path will be stored
+        limit : the total number of alignments you want. 
+                If None is provided, it returns all possible combinations.
+
+        Return:
+        None. 
+        The results will be stored in path_list list that you provided.
+    """
 
     if limit and len(path_list) == limit:
         return
@@ -10,7 +24,6 @@ def trace_all_paths(trace_matrix, j, i, path, path_list, limit=None):
     if i == 0:
         path_list.append(path + 'h'*j)
         return
-
 
     if entry[0] == 'h' :
         path += "h"
@@ -55,3 +68,12 @@ def path_to_alignment(left, right, posL, posR, path):
         Ra += '-'*len(offset)
 
     return La[::-1], Ra[::-1]
+
+
+
+
+
+
+
+
+
